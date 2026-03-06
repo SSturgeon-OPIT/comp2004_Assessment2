@@ -35,6 +35,12 @@ that prints all the
 keys less than a given value v in a binary tree. 
 */
 
+/*
+git add .
+git commit -m "Message"
+git push
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "Sturgeon_2_1.h"

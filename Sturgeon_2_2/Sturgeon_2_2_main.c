@@ -15,6 +15,11 @@ a)	The height of a tree is the maximum number of edges on a path from the root t
 b)	The cost of a path in a tree is sum of the keys of the nodes participating in that path. Write a C function int path_cost(BinaryTree T) that returns the cost of the most expensive path from the root to a leaf node.
 */
 
+/*
+git add .
+git commit -m "Message"
+git push
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "binary_tree_from_list.c"

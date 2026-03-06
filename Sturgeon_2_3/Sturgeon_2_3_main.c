@@ -18,6 +18,12 @@ a)	Given two binary trees, return true if and only if they are structurally iden
 b)	Given two binary trees, return true if they are identical (they have nodes with the same values, arranged in the same way).
 */
 
+/*
+git add .
+git commit -m "Message"
+git push
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "binary_tree_from_list.c"

@@ -1,3 +1,15 @@
+/*
+ReturnType function(Tree T)
+{
+    if (T == NULL)
+        return base_value;
+
+    ReturnType left = function(T->Left);
+    ReturnType right = function(T->Right);
+
+    return combine(T->Element, left, right);
+}
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "Sturgeon_2_1.h"
@@ -27,8 +39,6 @@ int isPerfectTree (int n)
 
 Tree Insert (ElementType X, Tree T)
 {
-
-
     if (T == NULL)
     {
         Tree temp_node = malloc(sizeof(struct BinaryTree));
@@ -38,7 +48,8 @@ Tree Insert (ElementType X, Tree T)
         temp_node -> lCount = temp_node -> rCount = 0;
         return temp_node;
     }
-    else{
+    else
+    {
         if (T -> lCount == T -> rCount)
         {
             T -> Left = Insert ( X, T -> Left); 
@@ -102,16 +113,16 @@ ElementType count_nodes( Tree T )
 {
     /* sumLeft = 0;
     sumRight = 0; */
-    /* Only sum root node if no children, which would be 1 */
+    /* If tree is empty, return 0 bc empty tree = 0 nodes */
     if ( T == NULL ) 
-        return 1;
+        return 0;
 
     else
     {
-        T->lCount = count_nodes( T->Left);
-        T->rCount = count_nodes( T->Right );
-
-        return ( 1 + T->lCount, T->rCount ); 
+        T->lCount = count_nodes( T->Left ); // count all nodes on left 
+        T->rCount = count_nodes( T->Right ); // count all nodes on right
+ 
+        return ( 1 + T->lCount, T->rCount ); // add left and right nodes, plus root node 
     }
 }
 
@@ -121,36 +132,58 @@ ElementType sum_elements( Tree T )
     if ( T == NULL )
     return T->Element;
 
-    while ( T != NULL )
-    {
-        T->lCount = sum_elements( T->Left->Element ); // what to do when T->Left = NULL? If statement?
-        T->rCount = sum_elements( T->Right->Element ); // what to do when T->Right = NULL? If statement?
-    }
+    int leftSum =+ T->Left->Element;
+    int rightSum =+ T->Right->Element;
 
-    return T + T->lCount + T->rCount; // return root element + all left children elements + all right children elements
+    leftSum = sum_elements( T->Left ); // what to do when T->Left = NULL? If statement?
+    rightSum = sum_elements( T->Right ); // what to do when T->Right = NULL? If statement?
+
+    return T->Element + leftSum + rightSum; // return root element + all left children elements + all right children elements
         
 }
 /* c) returns maximum value of all the elements in binary tree */
 ElementType max_element( Tree T )
 {
+    if ( T == NULL )
+    return -1; // empty tree, so return -1 (per assessment instructions)
 
+    int leftMax = 0;
+    int rightMax = 0;
+    int max = 0; // to store the max element 
+
+    
+
+    /* 
+    while ( T != NULL )
+        {
+            leftMax = max_element( T->Left->Element);
+            rightMax = max_element( T->Right->Element );
+        }
+    if (max_element( T->Left->Element) > max_element(T->Right->Element) )
+        return max_element( T->Left->Element);
+    else
+        return max_element( T->Right->Element );
+    */
 }
 
 /* d) prints all elements less than a given value v in binary tree */
 void print_below( Tree T, ElementType v )
 {
-    /* Only one node, the root, compare root element with v, if less print */
-    if ( T == NULL && T->Element < v )
-        printf("%d", T->Element);
+    /* If statement in the case tree is empty */
+    if ( T == NULL )
+        printf("The tree is empty... ");
+   
+    else if ( T =! NULL )
 
-    else
-    {
-        while ( T != NULL )
-        
+    print_below( T->Left, v );
         if ( T->Left->Element < v )
-        printf( )
-    }
+            printf("%d ", T->Left->Element);
+
+    print_below( T->Right, v );
+        if ( T->Right->Element < v )
+            printf("%d ", T->Right->Element)
     
+
 }
 // Uncomment the main method below to run this program on its own 
 /*

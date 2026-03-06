@@ -1,3 +1,15 @@
+/*
+ReturnType function(Tree T)
+{
+    if (T == NULL)
+        return base_value;
+
+    ReturnType left = function(T->Left);
+    ReturnType right = function(T->Right);
+
+    return combine(T->Element, left, right);
+}
+*/
 #include <stdio.h>
 #include <stdlib.h>
 

@@ -28,13 +28,13 @@ Tree makeTree(int n, int *arr);
 
 Tree removeNullNodes(Tree t);
 
-ElementType count_nodes( BinaryTree T );
+ElementType count_nodes( Tree T );
 
-ElementType sum_elements( BinaryTree T );
+ElementType sum_elements( Tree T );
 
-ElementType max_element( BinaryTree T );
+ElementType max_element( Tree T );
 
-void print_below( BinaryTree T, ElementType v );
+void print_below( Tree T, ElementType v );
 
 
 
