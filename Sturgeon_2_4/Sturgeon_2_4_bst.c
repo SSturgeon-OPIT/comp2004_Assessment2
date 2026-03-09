@@ -2,14 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-struct TreeNode
-{
-    ElementType Element;
-    SearchTree  Left;
-    SearchTree  Right;
-};
-
-
 SearchTree
 MakeEmpty( SearchTree T )
 {
@@ -138,4 +130,19 @@ void PrintTree(SearchTree T)
         PrintTree(T->Left);
         printf("%d ", Retrieve(T));
         PrintTree(T->Right);    }
+}
+
+Position findMin_K( SearchTree T, int k)
+{
+
+}
+
+int numLeafNodes( SearchTree T )
+{
+
+}
+
+ElementType *LevelOrder( SearchTree T )
+{
+    
 }
