@@ -26,28 +26,64 @@ git push
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "binary_tree_from_list.c"
+#include "Sturgeon_2_3.h"
 
-int main()
+int main(void)
 {   
     int n;
-    printf("Enter the number of nodes in the tree: ");
+    printf("Enter the number of nodes in the first tree: ");
     scanf ("%d", &n);
     int *arr = (int *) malloc(sizeof(int)*n);
-    printf("Enter the level-order data elements of the tree (positive ints separated by space):");
+    printf("Enter the level-order data elements of the first tree (positive ints separated by space):");
     for (int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
     
-    Tree r = makeTree(n, arr);
-    r = removeNullNodes(r);
+    Tree T1 = makeTree(n, arr);
+    T1 = removeNullNodes(T1);
 
     printf("Inorder traversal: ");
-    PrintTree(r);
+    PrintTree(T1);
     printf("\n");
+
+    printf("Enter the number of nodes in the second tree: ");
+    scanf ("%d", &n);
+    int *arr2 = (int *) malloc(sizeof(int)*n);
+    printf("Enter the level-order data elements of the second tree (positive ints separated by space):");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr2[i]);
+    
+    Tree T2 = makeTree(n, arr2);
+    T2 = removeNullNodes(T2);
+
+    printf("Inorder traversal: ");
+    PrintTree(T2);
+    printf("\n");
+
+    if (struct_same( T1, T2 ))
+    printf("i crapped my pants at the same structure of trees.  \n");
+
+        else 
+        {
+            printf("The janks are not structurally the same. \n");
+        }        
+
+     if (struct_valsame( T1, T2 ))
+    printf("i crapped my pants at the exact same identifcal value trees.  \n");
+
+        else 
+        {
+            printf("The janks aren't identical. \n");
+        }
+
+
+
+
+
 
     // Enter the function calls to the code for the 
     // different questions for Assignment 2 below this line
 
 
-    MakeEmpty(r);
+    MakeEmpty(T1);
+    MakeEmpty(T2);
 }

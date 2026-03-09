@@ -9,6 +9,26 @@ ReturnType function(Tree T)
 
     return combine(T->Element, left, right);
 }
+
+Question	Pattern	Formula
+count_nodes	Add everything	1 + left + right
+sum_keys	Add everything	root + left + right
+max_key	Biggest value	max(root,left,right)
+print_below	Visit nodes	print if condition
+height	Biggest path	1 + max(left,right)
+path_cost	Biggest path	root + max(left,right)
+structural identical	Boolean check	left && right
+identical tree	Boolean check	value && left && right
+
+| Problem        | Base value                      |
+| -------------- | ------------------------------- |
+| Count nodes    | `0`                             |
+| Sum of keys    | `0`                             |
+| Maximum value  | `-1` (given in your assignment) |
+| Height         | `-1`                            |
+| Path cost      | `0`                             |
+| Boolean checks | `true`                          |
+
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -122,57 +142,73 @@ ElementType count_nodes( Tree T )
         T->lCount = count_nodes( T->Left ); // count all nodes on left 
         T->rCount = count_nodes( T->Right ); // count all nodes on right
  
-        return ( 1 + T->lCount, T->rCount ); // add left and right nodes, plus root node 
+        return ( 1 + T->lCount + T->rCount ); // add left and right nodes, plus root node 
     }
 }
 
 /* b) Returns sum of all the elements in binary tree */
 ElementType sum_elements( Tree T )
 {
+    /* Empty Tree, return 0  */
     if ( T == NULL )
-    return T->Element;
+        return 0;
+    /* If only one element, return element */
+    else if ( T->Left == NULL && T->Right == NULL )
+        return T->Element;
 
-    int leftSum =+ T->Left->Element;
-    int rightSum =+ T->Right->Element;
+    else 
+    {
+    /* Declaration of two int variables to store left and right values */
+    int leftSum = 0;
+    int rightSum = 0; 
 
-    leftSum = sum_elements( T->Left ); // what to do when T->Left = NULL? If statement?
-    rightSum = sum_elements( T->Right ); // what to do when T->Right = NULL? If statement?
+    /* Recursively go down tree until T = NULL*/
+    leftSum = sum_elements( T->Left );
+    rightSum = sum_elements( T->Right ); 
 
-    return T->Element + leftSum + rightSum; // return root element + all left children elements + all right children elements
-        
+    return (T->Element + leftSum + rightSum); // return root element + all left children elements + all right children elements
+    }   
 }
 /* c) returns maximum value of all the elements in binary tree */
 ElementType max_element( Tree T )
 {
     if ( T == NULL )
-    return -1; // empty tree, so return -1 (per assessment instructions)
+        return -1; // empty tree, so return -1 (per assessment instructions)
 
-    int leftMax = 0;
-    int rightMax = 0;
-    int max = 0; // to store the max element 
+    /* int maxLeft; // to store the highest value 
+    int maxRight; */
 
-    
+    /* Compare elements on left side of the binary tree */
+    int leftMax = max_element( T->Left );
+        if ( T->Left->Element > T->Element )
+        T->Left->Element = leftMax;
+            else
+            {
+                T->Element = leftMax;
+            }
+    /* Compare elements on right side of the binary tree */
+    int rightMax = max_element( T->Right );
+        if ( T->Right->Element > T->Element )
+            T->Right->Element = leftMax;
+            else
+            {
+                T->Element = rightMax;
+            }
 
-    /* 
-    while ( T != NULL )
-        {
-            leftMax = max_element( T->Left->Element);
-            rightMax = max_element( T->Right->Element );
-        }
-    if (max_element( T->Left->Element) > max_element(T->Right->Element) )
-        return max_element( T->Left->Element);
-    else
-        return max_element( T->Right->Element );
-    */
+/* Compare left side highest value to right side highest value, returning whichever is higher */
+    if (leftMax > rightMax )
+            return leftMax;
+        else
+            return rightMax;
 }
 
 /* d) prints all elements less than a given value v in binary tree */
 void print_below( Tree T, ElementType v )
-{
-    /* If statement in the case tree is empty */
+
+/* If statement in the case tree is empty */
     if ( T == NULL )
         printf("The tree is empty... ");
-   
+{
     else if ( T =! NULL )
 
     print_below( T->Left, v );
@@ -182,7 +218,6 @@ void print_below( Tree T, ElementType v )
     print_below( T->Right, v );
         if ( T->Right->Element < v )
             printf("%d ", T->Right->Element)
-    
 
 }
 // Uncomment the main method below to run this program on its own 

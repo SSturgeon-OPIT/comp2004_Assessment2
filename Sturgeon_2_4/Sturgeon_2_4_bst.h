@@ -1,8 +1,8 @@
+
+#ifndef STURGEON_2_4_BST_H
+#define STURGEON_2_4_BST_H
+
 typedef int ElementType;
-
-
-#ifndef _BST_H
-#define _BST_H
 
 struct TreeNode;
 typedef struct TreeNode *Position;

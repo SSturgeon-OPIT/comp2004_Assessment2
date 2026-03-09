@@ -9,30 +9,39 @@ ReturnType function(Tree T)
 
     return combine(T->Element, left, right);
 }
+
+Question	Pattern	Formula
+count_nodes	Add everything	1 + left + right
+sum_keys	Add everything	root + left + right
+max_key	Biggest value	max(root,left,right)
+print_below	Visit nodes	print if condition
+height	Biggest path	1 + max(left,right)
+path_cost	Biggest path	root + max(left,right)
+structural identical	Boolean check	left && right
+identical tree	Boolean check	value && left && right
+
+| Problem        | Base value                      |
+| -------------- | ------------------------------- |
+| Count nodes    | `0`                             |
+| Sum of keys    | `0`                             |
+| Maximum value  | `-1` (given in your assignment) |
+| Height         | `-1`                            |
+| Path cost      | `0`                             |
+| Boolean checks | `true`                          |
+
 */
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef int ElementType;
-typedef struct BinaryTree *Tree;
-
-struct BinaryTree
+#include <stdbool.h> // for boolean true false 
+#include "Sturgeon_2_3.h"
+int globaldebug;
+void MakeEmpty(Tree T)
 {
-    ElementType Element;
-    Tree Left;
-    Tree Right;
-    int lCount;
-    int rCount;
-};
-
-
-void MakeEmpty(Tree t){
-
-    if (t != NULL)
+    if (T != NULL)
     {
-        MakeEmpty(t->Left);
-        MakeEmpty(t->Right);
-        free(t);
+        MakeEmpty(T->Left);
+        MakeEmpty(T->Right);
+        free(T);
     }
 }
 
@@ -48,10 +57,9 @@ int isPerfectTree (int n)
         return 0;
 }
 
-Tree Insert (ElementType X, Tree t){
-
-
-    if (t == NULL)
+Tree Insert (ElementType X, Tree T)
+{
+    if (T == NULL)
     {
         Tree temp_node = malloc(sizeof(struct BinaryTree));
         temp_node -> Element = X;
@@ -60,34 +68,41 @@ Tree Insert (ElementType X, Tree t){
         temp_node -> lCount = temp_node -> rCount = 0;
         return temp_node;
     }
-    else{
-        if (t -> lCount == t -> rCount)
-        {
-            t -> Left = Insert ( X, t -> Left); 
-            t -> lCount+=1;
-        }
+    else
+    {
+        if (T -> lCount == T -> rCount)
+            {
+                T -> Left = Insert ( X, T -> Left); 
+                T -> lCount+=1;
+            }
         else 
-            if (t -> rCount < t -> lCount)
-                if (isPerfectTree(t->lCount)) 
+        {
+            if (T -> rCount < T -> lCount)
+            {
+                if (isPerfectTree(T->lCount)) 
                 {
-                    t -> Right = Insert ( X, t -> Right); 
-                    t -> rCount+=1;        
+                    T -> Right = Insert ( X, T -> Right); 
+                    T -> rCount+=1;        
                 }
                 else
                 {
-                    t -> Left = Insert ( X, t -> Left); 
-                    t -> lCount+=1;         
+                    T -> Left = Insert ( X, T -> Left); 
+                    T -> lCount+=1;         
                 }
+            }
+        }
+                
     }
-    return t;
+    return T;
 }
 
-void PrintTree(Tree t)
+void PrintTree(Tree T)
 {
-    if (t != NULL){
-        PrintTree( t->Left );
-        printf("%d ", t->Element);
-        PrintTree( t-> Right);
+    // printf("Print func %d\n",++globaldebug);
+    if (T != NULL){
+        PrintTree( T->Left );
+        printf("%d ", T->Element);
+        PrintTree( T->Right);
     }
  
 }
@@ -96,26 +111,72 @@ Tree makeTree(int n, int *arr)
 {
    
     Tree r = NULL;
-
+    // printf("In Make Tree\n");
     for (int i = 0; i < n; i++)
         r = Insert(arr[i], r);
 
     return r;
 }
 
-Tree removeNullNodes(Tree t)
+Tree removeNullNodes(Tree T)
 {
-    if (t != NULL)
+    if (T != NULL)
     {
-        t -> Left = removeNullNodes(t -> Left);
-        t -> Right = removeNullNodes(t -> Right);
-        if ( t -> Element == -1)
+        T -> Left = removeNullNodes(T -> Left);
+        T -> Right = removeNullNodes(T -> Right);
+        if ( T -> Element == -1)
         {
-            //free (t);
+            //free (T);
             return NULL;
         }
     }
-    return t;
+    return T;
+}
+
+/* a)	Given two binary trees, return true if and only if they are structurally identical (they have the same shape, but their nodes can have different values). */ 
+bool struct_same ( Tree T1, Tree T2 )
+{
+    if ( T1 == NULL && T2 == NULL )
+        return true;
+
+    else if ( T1 == NULL || T2 == NULL )
+        return false;
+
+    else
+        {
+            bool leftComp = struct_same ( T1->Left, T2->Left );
+            bool rightComp = struct_same ( T2->Right, T2->Right );
+            printf("\nr and l have been compared\n");
+            return ( leftComp && rightComp );
+        
+        }
+}
+
+/* b)	Given two binary trees, return true if they are identical (they have nodes with the same values, arranged in the same way).
+*/
+bool struct_valsame ( Tree T1, Tree T2 )
+{
+    if ( T1 == NULL ^ T2 == NULL )
+        return false;
+
+    else if ( T1 == NULL && T2 == NULL )
+        {
+            return true;
+           // T1->Element == T2->Element ? true : false;     
+        }
+
+    /*  else if ( T1 == NULL ^ T2 == NULL )
+        return false; */
+
+    else
+        {
+            bool leftComp = struct_valsame ( T1->Left, T2->Left );
+            bool rightComp = struct_valsame ( T2->Right, T2->Right );
+            \\printf("\nr and l have been compared\n");
+            //return ( leftComp && rightComp );
+            return ( t1->Element == t2->Element )
+        
+        }
 }
 
 
